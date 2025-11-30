@@ -9,9 +9,11 @@ interface VideoModalProps {
 }
 
 export default function VideoModal({ isOpen, onClose, videoId, title }: VideoModalProps) {
-  // Fermer le menu quand on clique à l'extérieur et gérer échap
+  // Gérer le scroll et les événements clavier
   useEffect(() => {
     if (isOpen) {
+      // Sauvegarder l'état original du scroll
+      const originalOverflow = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
       
       const handleEscape = (e: KeyboardEvent) => {
@@ -22,16 +24,12 @@ export default function VideoModal({ isOpen, onClose, videoId, title }: VideoMod
       
       document.addEventListener('keydown', handleEscape);
       
+      // Nettoyage quand le modal se ferme
       return () => {
         document.removeEventListener('keydown', handleEscape);
+        document.body.style.overflow = originalOverflow || 'auto';
       };
-    } else {
-      document.body.style.overflow = 'unset';
     }
-
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
