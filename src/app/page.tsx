@@ -1,9 +1,99 @@
-﻿import Image from "next/image";
+﻿"use client";
+import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect, useRef } from "react";
+import { VideoModal } from "@/components";
 
 export default function Home() {
+  const [showVideoMenu, setShowVideoMenu] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState<{ id: string; title: string } | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Configuration des vidéos
+  const videos = [
+    { id: '2EDdIfGlBzo', title: 'Découvrez l\'assistant rédactionnel', description: 'Présentation générale' },
+    { id: 'Q3CELU2zfb0', title: 'Interface de l\'assistant rédactionnel', description: 'Démonstration de l\'interface' },
+    { id: 'OXix6lqmpKM', title: 'La technique derrière l\'assistant', description: 'Explication technique' },
+  ];
+
+  const openVideo = (videoId: string, title: string) => {
+    setSelectedVideo({ id: videoId, title });
+    setShowVideoMenu(false);
+  };
+
+  const closeVideo = () => {
+    setSelectedVideo(null);
+  };
+
+  // Fermer le menu quand on clique à l'extérieur
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowVideoMenu(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
   return (
     <main className="min-h-screen bg-white">
+      {/* Boutons en haut à droite */}
+      <div className="fixed top-4 right-6 lg:right-12 z-50 flex items-center gap-3">
+        {/* Bouton Se connecter */}
+        <button className="bg-white/90 backdrop-blur-sm hover:bg-white text-[#4A2C2A] text-sm font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-gray-200 hover:border-[#FF9933]">
+          Se connecter à mon espace
+        </button>
+        
+        {/* Bouton Vidéos avec dropdown */}
+        <div className="relative" ref={dropdownRef}>
+          <button 
+            onClick={() => setShowVideoMenu(!showVideoMenu)}
+            className="bg-white/90 backdrop-blur-sm hover:bg-white text-[#FF9933] hover:text-[#e67e22] text-sm font-medium py-2 px-4 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 border border-[#FF9933] hover:border-[#e67e22] flex items-center gap-2"
+          >
+            Nos outils en vidéo
+            <svg className={`w-4 h-4 transition-transform ${showVideoMenu ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          
+          {/* Dropdown Menu */}
+          {showVideoMenu && (
+            <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-lg border border-gray-200 py-2 z-60">
+              {videos.map((video) => (
+                <button
+                  key={video.id}
+                  onClick={() => openVideo(video.id, video.title)}
+                  className="block w-full text-left px-4 py-3 text-sm text-[#4A2C2A] hover:bg-gray-50 hover:text-[#FF9933] transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <svg className="w-5 h-5 text-[#FF9933] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                    </svg>
+                    <div>
+                      <div className="font-medium">{video.title}</div>
+                      <div className="text-xs text-gray-500">{video.description}</div>
+                    </div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Modal Vidéo */}
+      {selectedVideo && (
+        <VideoModal
+          isOpen={!!selectedVideo}
+          onClose={closeVideo}
+          videoId={selectedVideo.id}
+          title={selectedVideo.title}
+        />
+      )}
+
       {/* Hero Section */}
       <section className="relative min-h-screen overflow-hidden">
         {/* Hero Background Image - tout à gauche */}

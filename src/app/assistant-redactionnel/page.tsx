@@ -2,17 +2,28 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { VideoModal, DownloadButton } from "@/components";
 
 const demoImages = [
   { src: "/assistant_demo.png", alt: "Interface principale" },
-  { src: "/assist_pseudo.png", alt: "Texte pseudonymisé" },
-  { src: "/assistant_resultat.png", alt: "Résultat traité" },
+  { src: "/capture.png", alt: "Capture d'écran" },
+  { src: "/interface_1.png", alt: "Interface 1" },
+  { src: "/interface_2.png", alt: "Interface 2" },
 ];
 
 export default function AssistantRedactionnelPage() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [pseudoStep, setPseudoStep] = useState(0);
+  const [selectedVideo, setSelectedVideo] = useState<{ id: string; title: string } | null>(null);
   const pseudoTexts = ["M. Dupont habite à Paris. Il travaille...", "<PER_1> habite à <LOC_1>. Il travaille...", "M. Dupont habite à Paris. Il travaille..."];
+
+  const openVideo = (videoId: string, title: string) => {
+    setSelectedVideo({ id: videoId, title });
+  };
+
+  const closeVideo = () => {
+    setSelectedVideo(null);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => setCurrentImageIndex((prev) => (prev + 1) % demoImages.length), 6000);
@@ -225,27 +236,49 @@ export default function AssistantRedactionnelPage() {
         <div className="container mx-auto px-6 lg:px-12">
           <div className="max-w-5xl mx-auto">
             <h2 className="text-3xl lg:text-4xl font-bold text-[#4A2C2A] text-center mb-12">Découvrez l&apos;Assistant en vidéo</h2>
-            <div className="grid md:grid-cols-2 gap-8">
-              <div className="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
-                <video controls className="w-full aspect-video bg-black">
-                  <source src="/Presentation_ConfidensIA.mp4" type="video/mp4" />
-                  Votre navigateur ne supporte pas la lecture de vidéos.
-                </video>
-                <div className="p-6">
-                  <h3 className="text-lg font-bold text-[#4A2C2A] mb-2">Présentation générale</h3>
+            <div className="grid md:grid-cols-3 gap-8">
+              <button
+                onClick={() => openVideo('2EDdIfGlBzo', 'Présentation générale')}
+                className="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all group cursor-pointer"
+              >
+                <div className="aspect-video bg-gradient-to-br from-[#FF9933] to-[#e67e22] flex items-center justify-center">
+                  <svg className="w-16 h-16 text-white group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div className="p-6 text-left">
+                  <h3 className="text-lg font-bold text-[#4A2C2A] mb-2 group-hover:text-[#FF9933] transition-colors">Présentation générale</h3>
                   <p className="text-sm text-gray-600">Découvrez comment ConfidensIA transforme votre façon d&apos;utiliser l&apos;IA</p>
                 </div>
-              </div>
-              <div className="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all">
-                <video controls className="w-full aspect-video bg-black">
-                  <source src="/presentation_technique.mp4" type="video/mp4" />
-                  Votre navigateur ne supporte pas la lecture de vidéos.
-                </video>
-                <div className="p-6">
-                  <h3 className="text-lg font-bold text-[#4A2C2A] mb-2">Démonstration technique</h3>
+              </button>
+              <button
+                onClick={() => openVideo('Q3CELU2zfb0', 'Interface de l\'assistant')}
+                className="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all group cursor-pointer"
+              >
+                <div className="aspect-video bg-gradient-to-br from-[#4A2C2A] to-[#3a2220] flex items-center justify-center">
+                  <svg className="w-16 h-16 text-white group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div className="p-6 text-left">
+                  <h3 className="text-lg font-bold text-[#4A2C2A] mb-2 group-hover:text-[#FF9933] transition-colors">Interface de l&apos;assistant</h3>
+                  <p className="text-sm text-gray-600">Découverte de l&apos;interface utilisateur</p>
+                </div>
+              </button>
+              <button
+                onClick={() => openVideo('OXix6lqmpKM', 'Démonstration technique')}
+                className="bg-gray-50 rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all group cursor-pointer"
+              >
+                <div className="aspect-video bg-gradient-to-br from-gray-600 to-gray-800 flex items-center justify-center">
+                  <svg className="w-16 h-16 text-white group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <div className="p-6 text-left">
+                  <h3 className="text-lg font-bold text-[#4A2C2A] mb-2 group-hover:text-[#FF9933] transition-colors">Démonstration technique</h3>
                   <p className="text-sm text-gray-600">Plongez dans le fonctionnement de la pseudonymisation intelligente</p>
                 </div>
-              </div>
+              </button>
             </div>
           </div>
         </div>
@@ -301,9 +334,25 @@ export default function AssistantRedactionnelPage() {
         </div>
       </section>
 
-      <div className="flex justify-center py-12 bg-white">
+      <div className="flex justify-center items-center gap-6 py-12 bg-white">
+        <DownloadButton 
+          fileName="Fiche_assistant.pdf"
+          title="Fiche technique assistant"
+          description="Guide complet - PDF"
+          variant="secondary"
+        />
         <Link href="/" className="bg-[#FF9933] hover:bg-[#e67e22] text-white font-semibold py-3 px-10 rounded-full transition-all shadow-lg">Retour à l&apos;accueil</Link>
       </div>
+
+      {/* Modal Vidéo */}
+      {selectedVideo && (
+        <VideoModal
+          isOpen={!!selectedVideo}
+          onClose={closeVideo}
+          videoId={selectedVideo.id}
+          title={selectedVideo.title}
+        />
+      )}
     </main>
   );
 }

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { CheckCircle, Lightbulb, Star, MapPin, Users, Heart, Mail, Globe, ArrowRight } from 'lucide-react';
+import { DownloadButton } from '@/components';
 
 export default function AccompagnementFormationPage() {
   const [isVisible, setIsVisible] = useState(false);
@@ -440,6 +441,23 @@ export default function AccompagnementFormationPage() {
             <p className="text-white/90 text-sm mt-6">
               Premier échange gratuit et sans engagement
             </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Section Téléchargement */}
+      <section className="py-12 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-center items-center gap-6">
+            <DownloadButton 
+              fileName="Fiche_accompagnement.pdf"
+              title="Guide accompagnement & formation"
+              description="Méthodologie complète - PDF"
+              variant="secondary"
+            />
+            <Link href="/" className="bg-[#FF9933] hover:bg-[#e67e22] text-white font-semibold py-3 px-10 rounded-full transition-all shadow-lg">
+              Retour à l&apos;accueil
+            </Link>
           </div>
         </div>
       </section>

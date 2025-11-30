@@ -1,5 +1,6 @@
 ﻿import Image from "next/image";
 import Link from "next/link";
+import { DownloadButton } from "@/components";
 
 export default function AutomatisationPage() {
   return (
@@ -381,7 +382,13 @@ export default function AutomatisationPage() {
         </div>
       </section>
 
-      <div className="flex justify-center py-12 bg-white">
+      <div className="flex justify-center items-center gap-6 py-12 bg-white">
+        <DownloadButton 
+          fileName="Fiche_automatisation.pdf"
+          title="Fiche technique automatisation"
+          description="Solutions d'automatisation - PDF"
+          variant="secondary"
+        />
         <Link href="/" className="bg-[#FF9933] hover:bg-[#e67e22] text-white font-semibold py-3 px-10 rounded-full transition-all shadow-lg">
           Retour à l&apos;accueil
         </Link>

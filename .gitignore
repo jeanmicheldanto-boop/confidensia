@@ -46,3 +46,6 @@ next-env.d.ts
 *.jpeg
 *.mp4
 *.pdf
+
+# Allow all public assets (images, PDFs, etc.)
+!public/**

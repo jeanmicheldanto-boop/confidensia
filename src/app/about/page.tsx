@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { DownloadButton } from "@/components";
 
 export default function AboutPage() {
   return (
@@ -432,7 +433,13 @@ export default function AboutPage() {
       </section>
 
       {/* Bouton retour */}
-      <div className="flex justify-center py-12 bg-white">
+      <div className="flex justify-center items-center gap-6 py-12 bg-white">
+        <DownloadButton 
+          fileName="Brochure ConfidensIA.pdf"
+          title="Télécharger notre brochure"
+          description="Présentation complète - PDF"
+          variant="secondary"
+        />
         <Link
           href="/"
           className="inline-block bg-[#FF9933] hover:bg-[#e67e22] text-white font-semibold py-3 px-10 text-sm rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"

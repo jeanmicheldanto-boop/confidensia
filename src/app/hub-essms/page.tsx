@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { DownloadButton } from "@/components";
 
 const demoImages = [
   { src: "/hub_demo.png", alt: "Interface conversationnelle" },
@@ -542,7 +543,13 @@ export default function HubEssmsPage() {
       </section>
 
       {/* Bouton retour */}
-      <div className="flex justify-center py-12 bg-white">
+      <div className="flex justify-center items-center gap-6 py-12 bg-white">
+        <DownloadButton 
+          fileName="Fiche_hub.pdf"
+          title="Fiche technique Hub ESSMS"
+          description="Guide d'utilisation - PDF"
+          variant="secondary"
+        />
         <Link
           href="/"
           className="inline-block bg-[#FF9933] hover:bg-[#e67e22] text-white font-semibold py-3 px-10 text-sm rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
